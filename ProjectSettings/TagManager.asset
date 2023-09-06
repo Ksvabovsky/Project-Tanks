@@ -22,13 +22,13 @@ TagManager:
   - 
   - 
   - 
+  - Wheels
+  - Collision
+  - Ground
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - HitBox
+  - Bullets
   - 
   - 
   - 

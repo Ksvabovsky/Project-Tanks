@@ -8,12 +8,12 @@ public class DiscordManager : MonoBehaviour
 {
     Discord.Discord discord;
 
-    string Details = "Wzywam œwiêtego Pakera";
-    string State = "Stan: gdzie jest Paker";
-    string LargeImage = "giga_paker";
+    string Details = "Projekt w unity";
+    string State = "kiedys go zrobie";
+    string LargeImage = "ja-osmiornica";
     string LargeText = "Paker jest boski";
-    string SmallImage = "paker";
-    string SmallText = "i to bardzo!";
+    string SmallImage = null;
+    string SmallText = null;
     long TimeStamp;
 
     public static DiscordManager Instance;
