@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     GameObject Vehicle;
     [SerializeField]
     DriveScript drive;
+    [SerializeField]
+    TurretScript turret;
 
     PlayerInputController input;
 
@@ -21,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Transform camLook;
 
+    [SerializeField]
+    public Quaternion lookTransform;
 
     [SerializeField]
     Vector2 offset;
@@ -39,6 +43,10 @@ public class PlayerController : MonoBehaviour
 
         drive = Vehicle.GetComponent<DriveScript>();
         drive.SetInput(input);
+
+        turret= Vehicle.GetComponent<TurretScript>();
+        turret.SetInput(input);
+        turret.SetController(this);
     }
 
     // Update is called once per frame
@@ -56,7 +64,8 @@ public class PlayerController : MonoBehaviour
 
         camLook.localPosition = Vector3.Lerp(camLook.localPosition, new Vector3(lookAround.x * offset.x, 0f, lookAround.y * offset.y), camSpeed * Time.deltaTime);
 
-
+        Vector3 relativePos = camLook.position - camParent.position;
+        lookTransform = Quaternion.LookRotation(relativePos);
 
 
     }
@@ -68,6 +77,8 @@ public class PlayerController : MonoBehaviour
             alignment = TextAnchor.UpperLeft
         };
 
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(camParent.position, 0.4f);
         Gizmos.color = new Color(1, 0.8f, 0.4f, 1);
         Gizmos.DrawSphere(camLook.position, 0.4f);
         Handles.color = new Color(1, 0.8f, 0.4f, 1);
