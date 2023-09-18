@@ -37,15 +37,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
-                    ""type"": ""Button"",
-                    ""id"": ""b78dbd0b-6995-42c0-bfca-4bc2124b1281"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Aim"",
                     ""type"": ""Value"",
                     ""id"": ""386d5ad7-51c1-4be5-a844-eccc8af96d1d"",
@@ -55,7 +46,34 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Brake"",
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""b78dbd0b-6995-42c0-bfca-4bc2124b1281"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Laser"",
+                    ""type"": ""Button"",
+                    ""id"": ""d629e7cb-cf0b-4f92-857c-f72a823185f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""17b5f80c-5acf-4c03-b3e1-c87aa9c6a874"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action 2"",
                     ""type"": ""Button"",
                     ""id"": ""62002277-2d9e-42a6-a7de-004c3e04a22d"",
                     ""expectedControlType"": ""Button"",
@@ -144,6 +162,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f4b4769e-f93c-4c2b-ac1d-e15bc6286d77"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf9b0e34-1bab-410c-9f99-ffd4aefafdf3"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Laser"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fb46fb6e-8243-4697-8298-10f92d2a9080"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
@@ -160,7 +200,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brake"",
+                    ""action"": ""Action 2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -172,9 +212,11 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // Map1
         m_Map1 = asset.FindActionMap("Map1", throwIfNotFound: true);
         m_Map1_Steering = m_Map1.FindAction("Steering", throwIfNotFound: true);
-        m_Map1_Fire = m_Map1.FindAction("Fire", throwIfNotFound: true);
         m_Map1_Aim = m_Map1.FindAction("Aim", throwIfNotFound: true);
-        m_Map1_Brake = m_Map1.FindAction("Brake", throwIfNotFound: true);
+        m_Map1_Fire = m_Map1.FindAction("Fire", throwIfNotFound: true);
+        m_Map1_Laser = m_Map1.FindAction("Laser", throwIfNotFound: true);
+        m_Map1_Action1 = m_Map1.FindAction("Action 1", throwIfNotFound: true);
+        m_Map1_Action2 = m_Map1.FindAction("Action 2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -237,17 +279,21 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Map1;
     private List<IMap1Actions> m_Map1ActionsCallbackInterfaces = new List<IMap1Actions>();
     private readonly InputAction m_Map1_Steering;
-    private readonly InputAction m_Map1_Fire;
     private readonly InputAction m_Map1_Aim;
-    private readonly InputAction m_Map1_Brake;
+    private readonly InputAction m_Map1_Fire;
+    private readonly InputAction m_Map1_Laser;
+    private readonly InputAction m_Map1_Action1;
+    private readonly InputAction m_Map1_Action2;
     public struct Map1Actions
     {
         private @PlayerInput m_Wrapper;
         public Map1Actions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Steering => m_Wrapper.m_Map1_Steering;
-        public InputAction @Fire => m_Wrapper.m_Map1_Fire;
         public InputAction @Aim => m_Wrapper.m_Map1_Aim;
-        public InputAction @Brake => m_Wrapper.m_Map1_Brake;
+        public InputAction @Fire => m_Wrapper.m_Map1_Fire;
+        public InputAction @Laser => m_Wrapper.m_Map1_Laser;
+        public InputAction @Action1 => m_Wrapper.m_Map1_Action1;
+        public InputAction @Action2 => m_Wrapper.m_Map1_Action2;
         public InputActionMap Get() { return m_Wrapper.m_Map1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -260,15 +306,21 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Steering.started += instance.OnSteering;
             @Steering.performed += instance.OnSteering;
             @Steering.canceled += instance.OnSteering;
-            @Fire.started += instance.OnFire;
-            @Fire.performed += instance.OnFire;
-            @Fire.canceled += instance.OnFire;
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
-            @Brake.started += instance.OnBrake;
-            @Brake.performed += instance.OnBrake;
-            @Brake.canceled += instance.OnBrake;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
+            @Laser.started += instance.OnLaser;
+            @Laser.performed += instance.OnLaser;
+            @Laser.canceled += instance.OnLaser;
+            @Action1.started += instance.OnAction1;
+            @Action1.performed += instance.OnAction1;
+            @Action1.canceled += instance.OnAction1;
+            @Action2.started += instance.OnAction2;
+            @Action2.performed += instance.OnAction2;
+            @Action2.canceled += instance.OnAction2;
         }
 
         private void UnregisterCallbacks(IMap1Actions instance)
@@ -276,15 +328,21 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Steering.started -= instance.OnSteering;
             @Steering.performed -= instance.OnSteering;
             @Steering.canceled -= instance.OnSteering;
-            @Fire.started -= instance.OnFire;
-            @Fire.performed -= instance.OnFire;
-            @Fire.canceled -= instance.OnFire;
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
-            @Brake.started -= instance.OnBrake;
-            @Brake.performed -= instance.OnBrake;
-            @Brake.canceled -= instance.OnBrake;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
+            @Laser.started -= instance.OnLaser;
+            @Laser.performed -= instance.OnLaser;
+            @Laser.canceled -= instance.OnLaser;
+            @Action1.started -= instance.OnAction1;
+            @Action1.performed -= instance.OnAction1;
+            @Action1.canceled -= instance.OnAction1;
+            @Action2.started -= instance.OnAction2;
+            @Action2.performed -= instance.OnAction2;
+            @Action2.canceled -= instance.OnAction2;
         }
 
         public void RemoveCallbacks(IMap1Actions instance)
@@ -305,8 +363,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface IMap1Actions
     {
         void OnSteering(InputAction.CallbackContext context);
-        void OnFire(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnBrake(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
+        void OnLaser(InputAction.CallbackContext context);
+        void OnAction1(InputAction.CallbackContext context);
+        void OnAction2(InputAction.CallbackContext context);
     }
 }

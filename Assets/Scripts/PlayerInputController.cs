@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
+    public delegate void RightTrigger();
+    public static RightTrigger rightTrigger;
+
+    public delegate void LeftTrigger();
+    public static LeftTrigger leftTrigger;
+
+
     PlayerInput playerInput;
 
     public Vector2 lookAround;
@@ -17,9 +25,7 @@ public class PlayerInputController : MonoBehaviour
         playerInput = new PlayerInput();
         playerInput.Enable();
 
-        playerInput.Map1.Brake.started += context => brake = true;
-        playerInput.Map1.Brake.performed+= context => brake = true;
-        playerInput.Map1.Brake.canceled+= context => brake = false;
+        playerInput.Map1.Fire.performed += rTrigger;
     }
 
     private void OnEnable()
@@ -37,5 +43,20 @@ public class PlayerInputController : MonoBehaviour
     {
         steering = playerInput.Map1.Steering.ReadValue<Vector2>();
         lookAround = playerInput.Map1.Aim.ReadValue<Vector2>();
+    }
+
+    public void rTrigger(InputAction.CallbackContext context)
+    {
+        if (rightTrigger != null)
+        {
+            rightTrigger();
+        }
+    }
+    public void lTrigger(InputAction.CallbackContext context)
+    {
+        if(leftTrigger != null)
+        {
+            leftTrigger();
+        }
     }
 }

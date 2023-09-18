@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "b78dbd0b-6995-42c0-bfca-4bc2124b1281",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Aim",
                     "type": "Value",
                     "id": "386d5ad7-51c1-4be5-a844-eccc8af96d1d",
@@ -33,7 +24,34 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Brake",
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "b78dbd0b-6995-42c0-bfca-4bc2124b1281",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Laser",
+                    "type": "Button",
+                    "id": "d629e7cb-cf0b-4f92-857c-f72a823185f1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Action 1",
+                    "type": "Button",
+                    "id": "17b5f80c-5acf-4c03-b3e1-c87aa9c6a874",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Action 2",
                     "type": "Button",
                     "id": "62002277-2d9e-42a6-a7de-004c3e04a22d",
                     "expectedControlType": "Button",
@@ -122,6 +140,28 @@
                 },
                 {
                     "name": "",
+                    "id": "f4b4769e-f93c-4c2b-ac1d-e15bc6286d77",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf9b0e34-1bab-410c-9f99-ffd4aefafdf3",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Laser",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fb46fb6e-8243-4697-8298-10f92d2a9080",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -138,7 +178,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Brake",
+                    "action": "Action 2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

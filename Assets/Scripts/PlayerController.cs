@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         target = Vehicle.transform;
-
+        
         input = GetComponent<PlayerInputController>();
 
         drive = Vehicle.GetComponent<DriveScript>();
@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
         turret= Vehicle.GetComponent<TurretScript>();
         turret.SetInput(input);
         turret.SetController(this);
+
     }
 
     // Update is called once per frame
@@ -65,7 +66,10 @@ public class PlayerController : MonoBehaviour
         camLook.localPosition = Vector3.Lerp(camLook.localPosition, new Vector3(lookAround.x * offset.x, 0f, lookAround.y * offset.y), camSpeed * Time.deltaTime);
 
         Vector3 relativePos = camLook.position - camParent.position;
-        lookTransform = Quaternion.LookRotation(relativePos);
+        if (relativePos != Vector3.zero)
+        {
+            lookTransform = Quaternion.LookRotation(relativePos);
+        }
 
 
     }
@@ -82,6 +86,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = new Color(1, 0.8f, 0.4f, 1);
         Gizmos.DrawSphere(camLook.position, 0.4f);
         Handles.color = new Color(1, 0.8f, 0.4f, 1);
-        Handles.Label(camLook.position, "PlayerViewCenter",styl);
+        Handles.Label(camLook.position, "PlayerViewCenter", styl);
     }
 }
