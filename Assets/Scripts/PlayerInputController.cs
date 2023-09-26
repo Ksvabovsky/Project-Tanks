@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputController : MonoBehaviour
+public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , InputInterface
 {
-    public delegate void RightTrigger();
-    public static RightTrigger rightTrigger;
+    public delegate void Fire();
+    public Fire fire;
 
-    public delegate void LeftTrigger();
-    public static LeftTrigger leftTrigger;
+    public delegate void Aim();
+    public Aim aim;
 
 
     PlayerInput playerInput;
@@ -17,20 +17,14 @@ public class PlayerInputController : MonoBehaviour
     public Vector2 lookAround;
 
     public Vector2 steering;
-    public bool brake;
 
-    // Start is called before the first frame update
-    void Awake()
+
+    void OnEnable()
     {
         playerInput = new PlayerInput();
+        playerInput.Map1.SetCallbacks(this);
         playerInput.Enable();
 
-        playerInput.Map1.Fire.performed += rTrigger;
-    }
-
-    private void OnEnable()
-    {
-        playerInput.Enable();
     }
 
     private void OnDisable()
@@ -38,25 +32,49 @@ public class PlayerInputController : MonoBehaviour
         playerInput.Disable();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+
+    public void OnSteering(InputAction.CallbackContext context)
     {
         steering = playerInput.Map1.Steering.ReadValue<Vector2>();
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
         lookAround = playerInput.Map1.Aim.ReadValue<Vector2>();
     }
 
-    public void rTrigger(InputAction.CallbackContext context)
+    public void OnFire(InputAction.CallbackContext context)
     {
-        if (rightTrigger != null)
+        if(!context.performed)
         {
-            rightTrigger();
+            if (fire != null)
+            {
+                fire();
+            }
         }
     }
-    public void lTrigger(InputAction.CallbackContext context)
+
+
+    public void OnLaser(InputAction.CallbackContext context)
     {
-        if(leftTrigger != null)
+        if(aim != null)
         {
-            leftTrigger();
+            aim();
         }
+    }
+
+    public void OnAction1(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void OnAction2(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public Vector2 GetSteering()
+    {
+        return steering;
     }
 }

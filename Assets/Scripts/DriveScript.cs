@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class DriveScript : MonoBehaviour
 {
     [SerializeField]
-    PlayerInputController input;
+    InputInterface input;
 
     Rigidbody rb;
 
@@ -51,11 +51,11 @@ public class DriveScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!input)
+        if (input ==null)
         {
             return;
         }
-        steeringInput = input.steering;
+        steeringInput = input.GetSteering();
         //braking = input.brake;
 
         Yinput = steeringInput.y;
@@ -102,9 +102,9 @@ public class DriveScript : MonoBehaviour
         speed = Mathf.Round(speed);
     }
 
-    public void SetInput(PlayerInputController controller)
+    public void SetInput(InputInterface _input)
     {
-        input= controller;
+        input= _input;
     }
 
     

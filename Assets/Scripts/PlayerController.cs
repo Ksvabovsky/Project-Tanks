@@ -1,30 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.Windows;
+using UnityEditor;
+using Unity.VisualScripting;
 
+[RequireComponent(typeof(PlayerInputController))]
 public class PlayerController : MonoBehaviour
 {
-
-    [SerializeField]
-    GameObject Vehicle;
-    [SerializeField]
-    DriveScript drive;
-    [SerializeField]
-    TurretScript turret;
+    int Index;
 
     PlayerInputController input;
 
+    [SerializeField]
+    VehicleController vehicle;
+    [SerializeField]
+    GameObject prefab;
+
+    [SerializeField]
     Vector2 lookAround;
 
+
+    [Header("Spawns")]
+    [SerializeField]
+    Transform instantiatePoint;
+    [SerializeField]
+    Transform camPoint;
+    [SerializeField]
+    Transform playerPoint;
+
+    [Header("Camera")]
     [SerializeField]
     Transform camParent;
     [SerializeField]
     Transform camLook;
 
     [SerializeField]
-    public Quaternion lookTransform;
+    public Quaternion lookDirection;
 
     [SerializeField]
     Vector2 offset;
@@ -34,19 +47,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float camSpeed;
 
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        target = Vehicle.transform;
-        
-        input = GetComponent<PlayerInputController>();
+        input= GetComponent<PlayerInputController>();
 
-        drive = Vehicle.GetComponent<DriveScript>();
-        drive.SetInput(input);
+        if (vehicle)
+        {
+            vehicle.SetInput(input,this);
+        }
 
-        turret= Vehicle.GetComponent<TurretScript>();
-        turret.SetInput(input);
-        turret.SetController(this);
+        //target = vehicle.transform;
+    }
+
+    private void Start()
+    {
+        GameObject tank = Instantiate(prefab, instantiatePoint.position, instantiatePoint.rotation, this.transform);
+        SelfDriveScript selfDrive = tank.AddComponent<SelfDriveScript>();
+        selfDrive.SetTargets(camPoint, playerPoint,this);
+        vehicle = tank.GetComponent<VehicleController>();
+        vehicle.SetDrive(selfDrive);
 
     }
 
@@ -56,22 +77,34 @@ public class PlayerController : MonoBehaviour
         //debug = target.transform.position;
         //cam.transform.LookAt(target);
 
-        lookAround = input.lookAround;
-
-        camParent.position = Vector3.Lerp(camParent.position, target.position, camSpeed * Time.deltaTime);
-
-        //Vector3 toPos = target.transform.position + ;
-        //debug = toPos;
-
-        camLook.localPosition = Vector3.Lerp(camLook.localPosition, new Vector3(lookAround.x * offset.x, 0f, lookAround.y * offset.y), camSpeed * Time.deltaTime);
-
-        Vector3 relativePos = camLook.position - camParent.position;
-        if (relativePos != Vector3.zero)
+        if (target)
         {
-            lookTransform = Quaternion.LookRotation(relativePos);
+            
+            lookAround = input.lookAround;
+
+            camParent.position = Vector3.Lerp(camParent.position, target.position, camSpeed * Time.deltaTime);
+
+            //Vector3 toPos = target.transform.position + ;
+            //debug = toPos;
+
+            camLook.localPosition = Vector3.Lerp(camLook.localPosition, new Vector3(lookAround.x * offset.x, 0f, lookAround.y * offset.y), camSpeed * Time.deltaTime);
+
+            Vector3 relativePos = camLook.position - camParent.position;
+            if (relativePos != Vector3.zero)
+            {
+                lookDirection = Quaternion.LookRotation(relativePos);
+            }
         }
+    }
 
-
+    public void SetCamera()
+    {
+        target = vehicle.transform;
+    }
+    
+    public void SetPlayerInput()
+    {
+        vehicle.SetInput(input, this);
     }
 
     void OnDrawGizmos()

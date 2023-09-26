@@ -25,9 +25,11 @@ public class TurretScript : MonoBehaviour
 
     [SerializeField]
     PlayerInputController input;
-
     [SerializeField]
     PlayerController playerController;
+
+    [SerializeField]
+    VehicleController vehicleController;
 
     [SerializeField]
     Vector3 rotation;
@@ -44,9 +46,10 @@ public class TurretScript : MonoBehaviour
     float diff;
     //debug
 
-    void Start()
+    void Awake()
     {
-        PlayerInputController.rightTrigger += Shoot;
+
+        
     }
 
     void FixedUpdate()
@@ -56,7 +59,7 @@ public class TurretScript : MonoBehaviour
 
         if (playerController)
         {
-            rotation = playerController.lookTransform.eulerAngles;
+            rotation = playerController.lookDirection.eulerAngles;
         }
         // destined rotation in player viewing direction
 
@@ -85,24 +88,24 @@ public class TurretScript : MonoBehaviour
         // setting rotation to look at position, then zeroing in other axis
     }
 
-    public void SetInput(PlayerInputController controller)
+    public void SetInput(PlayerInputController _input,PlayerController _player)
     {
-        input = controller;
+        input = _input;
+        input.fire += Shoot;
+        playerController= _player;
     }
 
-    public void SetController(PlayerController controller)
+    public void SetController(VehicleController controller)
     {
-        playerController = controller;
+        vehicleController = controller;
     }
 
     void Shoot()
     {
-        Debug.Log("NAPIERDALAC");
-        GameObject Shell = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
-        Rigidbody rb = Shell.GetComponent<Rigidbody>();
-        rb.AddForce(Shell.transform.forward * BulletSpeed);
-
-
+            Debug.Log("NAPIERDALAC");
+            GameObject Shell = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
+            Rigidbody rb = Shell.GetComponent<Rigidbody>();
+            rb.AddForce(Shell.transform.forward * BulletSpeed);
     }
 
 }
