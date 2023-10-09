@@ -44,6 +44,7 @@ public class TurretScript : MonoBehaviour
 
     [SerializeField]
     float diff;
+    public float rotNormalized;
     //debug
 
     void Awake()
@@ -69,7 +70,8 @@ public class TurretScript : MonoBehaviour
         float rotTime = Mathf.Abs(diff) / rotationSpeed;
         // time to rotate
 
-        Quaternion target = Quaternion.Lerp(Quaternion.Euler(0f,Turret.rotation.eulerAngles.y,0f), Quaternion.Euler( 0f, rotation.y,0f), Time.deltaTime / rotTime);
+        rotNormalized = Mathf.Clamp01(Time.deltaTime / rotTime);
+        Quaternion target = Quaternion.Lerp(Quaternion.Euler(0f,Turret.rotation.eulerAngles.y,0f), Quaternion.Euler( 0f, rotation.y,0f), rotNormalized);
         // current target rotation in linear rotation of turret to designeted angle
         
         Turret.rotation = Quaternion.Euler(target.eulerAngles);

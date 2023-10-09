@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +13,7 @@ public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , I
     public delegate void Aim();
     public Aim aim;
 
+    
 
     PlayerInput playerInput;
 
@@ -25,6 +28,7 @@ public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , I
         playerInput.Map1.SetCallbacks(this);
         playerInput.Enable();
 
+        
     }
 
     private void OnDisable()
@@ -45,13 +49,17 @@ public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , I
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(!context.performed)
+        if(context.performed)
         {
             if (fire != null)
             {
                 fire();
             }
         }
+    }
+
+    public void onDeviceLost(PlayerInput pi) {
+        Debug.Log("chuj");
     }
 
 
@@ -65,7 +73,7 @@ public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , I
 
     public void OnAction1(InputAction.CallbackContext context)
     {
-
+        
     }
 
     public void OnAction2(InputAction.CallbackContext context)
