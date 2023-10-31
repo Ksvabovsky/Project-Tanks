@@ -1,2 +1,3 @@
 # Project-Tanks
- idk yet, thinking and ideas in progress
+ a local 4 player versus where players drive tanks, splitscreen 
+ currently learing Unity Input System
