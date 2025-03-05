@@ -15,7 +15,7 @@ public class VehicleController : MonoBehaviour
     TurretScript turret;
 
     PlayerInputController input;
-    PlayerController playerController;
+    PlayerControllerOld playerController;
 
     
 
@@ -39,13 +39,13 @@ public class VehicleController : MonoBehaviour
 
     }
 
-    public void SetInput(PlayerInputController _input,PlayerController _player)
+    public void SetInput(PlayerInputController _input,PlayerControllerOld _player)
     {
         input = _input;
         playerController = _player;
 
         drive = Vehicle.GetComponent<DriveScript>();
-        drive.SetInput(input);
+        //drive.SetInput(input);
 
         turret = Vehicle.GetComponent<TurretScript>();
         turret.SetInput(input,playerController);

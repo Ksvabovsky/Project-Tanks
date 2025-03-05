@@ -26,7 +26,7 @@ public class TurretScript : MonoBehaviour
     [SerializeField]
     PlayerInputController input;
     [SerializeField]
-    PlayerController playerController;
+    PlayerControllerOld playerController;
 
     [SerializeField]
     VehicleController vehicleController;
@@ -90,7 +90,7 @@ public class TurretScript : MonoBehaviour
         // setting rotation to look at position, then zeroing in other axis
     }
 
-    public void SetInput(PlayerInputController _input,PlayerController _player)
+    public void SetInput(PlayerInputController _input,PlayerControllerOld _player)
     {
         input = _input;
         input.fire += Shoot;

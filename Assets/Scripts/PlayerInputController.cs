@@ -5,17 +5,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , InputInterface
+public class PlayerInputController : MonoBehaviour
 {
     public delegate void Fire();
     public Fire fire;
 
     public delegate void Aim();
     public Aim aim;
-
-    
-
-    PlayerInput playerInput;
 
     public Vector2 lookAround;
 
@@ -24,27 +20,23 @@ public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , I
 
     void OnEnable()
     {
-        playerInput = new PlayerInput();
-        playerInput.Map1.SetCallbacks(this);
-        playerInput.Enable();
-
         
     }
 
     private void OnDisable()
     {
-        playerInput.Disable();
+        //playerInput.Disable();
     }
 
 
     public void OnSteering(InputAction.CallbackContext context)
     {
-        steering = playerInput.Map1.Steering.ReadValue<Vector2>();
+        steering = context.ReadValue<Vector2>();
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        lookAround = playerInput.Map1.Aim.ReadValue<Vector2>();
+        lookAround = context.ReadValue<Vector2>();
     }
 
     public void OnFire(InputAction.CallbackContext context)
@@ -58,7 +50,7 @@ public class PlayerInputController : MonoBehaviour, PlayerInput.IMap1Actions , I
         }
     }
 
-    public void onDeviceLost(PlayerInput pi) {
+    public void onDeviceLost(InputAction.CallbackContext context) {
         Debug.Log("chuj");
     }
 

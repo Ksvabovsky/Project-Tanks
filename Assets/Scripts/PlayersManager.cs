@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class PlayersManager : MonoBehaviour
 {
@@ -11,18 +13,23 @@ public class PlayersManager : MonoBehaviour
     Players players;
 
 
+    public int playersCount = 0;
+
     // Start is called before the first frame update
     void Awake()
     {
         if(Instance != this && Instance) {
-        
+
+            Debug.Log("Im not needed, se ya");
             Destroy(this.gameObject);
         }
         else
         {
+            Debug.Log("Im the lord now");
             Instance = this;
         }
         
+        DontDestroyOnLoad(this.gameObject);
         
     }
 
@@ -35,6 +42,42 @@ public class PlayersManager : MonoBehaviour
     public Players GetPlayers()
     {
         return players;
+    }
+
+    public int GetPlayersCount()
+    {
+        return playersCount;
+    }
+
+    public void AssignPlayer(PlayerController player_)
+    {
+        switch (playersCount)
+        {
+            case 0:
+                players._player1 = player_;
+                player_.gameObject.name = "Player_1";
+                playersCount++;
+                player_.SetPlayerIndex(playersCount);
+                break;
+            case 1:
+                players._player2 = player_;
+                player_.gameObject.name = "Player_2";
+                playersCount++;
+                player_.SetPlayerIndex(playersCount);
+                break;
+            case 2:
+                players._player3 = player_;
+                player_.gameObject.name = "Player_3";
+                playersCount++;
+                player_.SetPlayerIndex(playersCount);
+                break;
+            case 3:
+                players._player4 = player_;
+                player_.gameObject.name = "Player_4";
+                playersCount++;
+                player_.SetPlayerIndex(playersCount);
+                break;
+        }
     }
 
     public PlayerController GetPlayer(int index)

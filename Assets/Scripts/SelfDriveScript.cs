@@ -27,7 +27,7 @@ public class SelfDriveScript : MonoBehaviour, InputInterface
     Vector3 vehiclePos;
 
     [SerializeField]
-    PlayerController controller;
+    PlayerControllerOld controller;
 
 
     // Start is called before the first frame update
@@ -99,7 +99,7 @@ public class SelfDriveScript : MonoBehaviour, InputInterface
         return steering;
     }
 
-    public void SetTargets(Transform _camPoint, Transform _playerPoint, PlayerController _controller)
+    public void SetTargets(Transform _camPoint, Transform _playerPoint, PlayerControllerOld _controller)
     {
         camPoint = _camPoint;
         playerPoint = _playerPoint;
