@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput",
+    "name": "PlayerInputs",
     "maps": [
         {
             "name": "Map1",
@@ -179,6 +179,74 @@
                     "processors": "",
                     "groups": "",
                     "action": "Action 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "8708bb0d-2432-4900-a9ea-b7ce1d49773f",
+            "actions": [
+                {
+                    "name": "Ready",
+                    "type": "Button",
+                    "id": "e3c81dd5-4f97-4d19-898e-8302d5c19707",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeColorNext",
+                    "type": "Button",
+                    "id": "2fad2b65-04bd-4baa-a994-3f85d1076192",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeColorPrevios",
+                    "type": "Button",
+                    "id": "934a2a8c-6eeb-4351-8b29-243e55a1958a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "761432c3-d7f4-4903-a87c-e86a8fa9d9cb",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ready",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42624dd0-6214-4a1c-8d2c-a4b96d8e50ff",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeColorNext",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0dfb1a15-02fb-465b-a2ae-43b3232309e8",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeColorPrevios",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

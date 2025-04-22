@@ -13,6 +13,13 @@ public class PlayerInputController : MonoBehaviour
     public delegate void Aim();
     public Aim aim;
 
+    public delegate void ChangeColorNext();
+    public ChangeColorNext changeColorNext;
+
+    public delegate void ChangeColorPrevious();
+    public ChangeColorPrevious changeColorPrevious;
+
+
     public Vector2 lookAround;
 
     public Vector2 steering;
@@ -76,5 +83,22 @@ public class PlayerInputController : MonoBehaviour
     public Vector2 GetSteering()
     {
         return steering;
+    }
+
+    public void OnColorChangeNext(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            changeColorNext?.Invoke();
+        }
+
+    }
+    public void OnColorChangePrevious(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            changeColorPrevious?.Invoke();
+        }
+
     }
 }

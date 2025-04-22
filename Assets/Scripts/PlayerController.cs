@@ -12,11 +12,10 @@ public class PlayerController : MonoBehaviour
     public float test1;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        playerManager = PlayersManager.Instance;
 
-        playerManager.AssignPlayer(this);
+
 
     }
 

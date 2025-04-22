@@ -205,6 +205,74 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""8708bb0d-2432-4900-a9ea-b7ce1d49773f"",
+            ""actions"": [
+                {
+                    ""name"": ""Ready"",
+                    ""type"": ""Button"",
+                    ""id"": ""e3c81dd5-4f97-4d19-898e-8302d5c19707"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeColorNext"",
+                    ""type"": ""Button"",
+                    ""id"": ""2fad2b65-04bd-4baa-a994-3f85d1076192"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeColorPrevios"",
+                    ""type"": ""Button"",
+                    ""id"": ""934a2a8c-6eeb-4351-8b29-243e55a1958a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""761432c3-d7f4-4903-a87c-e86a8fa9d9cb"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ready"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42624dd0-6214-4a1c-8d2c-a4b96d8e50ff"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeColorNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0dfb1a15-02fb-465b-a2ae-43b3232309e8"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeColorPrevios"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -217,6 +285,11 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Map1_Laser = m_Map1.FindAction("Laser", throwIfNotFound: true);
         m_Map1_Action1 = m_Map1.FindAction("Action 1", throwIfNotFound: true);
         m_Map1_Action2 = m_Map1.FindAction("Action 2", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Ready = m_Menu.FindAction("Ready", throwIfNotFound: true);
+        m_Menu_ChangeColorNext = m_Menu.FindAction("ChangeColorNext", throwIfNotFound: true);
+        m_Menu_ChangeColorPrevios = m_Menu.FindAction("ChangeColorPrevios", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -360,6 +433,68 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         }
     }
     public Map1Actions @Map1 => new Map1Actions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_Ready;
+    private readonly InputAction m_Menu_ChangeColorNext;
+    private readonly InputAction m_Menu_ChangeColorPrevios;
+    public struct MenuActions
+    {
+        private @PlayerInputs m_Wrapper;
+        public MenuActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Ready => m_Wrapper.m_Menu_Ready;
+        public InputAction @ChangeColorNext => m_Wrapper.m_Menu_ChangeColorNext;
+        public InputAction @ChangeColorPrevios => m_Wrapper.m_Menu_ChangeColorPrevios;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @Ready.started += instance.OnReady;
+            @Ready.performed += instance.OnReady;
+            @Ready.canceled += instance.OnReady;
+            @ChangeColorNext.started += instance.OnChangeColorNext;
+            @ChangeColorNext.performed += instance.OnChangeColorNext;
+            @ChangeColorNext.canceled += instance.OnChangeColorNext;
+            @ChangeColorPrevios.started += instance.OnChangeColorPrevios;
+            @ChangeColorPrevios.performed += instance.OnChangeColorPrevios;
+            @ChangeColorPrevios.canceled += instance.OnChangeColorPrevios;
+        }
+
+        private void UnregisterCallbacks(IMenuActions instance)
+        {
+            @Ready.started -= instance.OnReady;
+            @Ready.performed -= instance.OnReady;
+            @Ready.canceled -= instance.OnReady;
+            @ChangeColorNext.started -= instance.OnChangeColorNext;
+            @ChangeColorNext.performed -= instance.OnChangeColorNext;
+            @ChangeColorNext.canceled -= instance.OnChangeColorNext;
+            @ChangeColorPrevios.started -= instance.OnChangeColorPrevios;
+            @ChangeColorPrevios.performed -= instance.OnChangeColorPrevios;
+            @ChangeColorPrevios.canceled -= instance.OnChangeColorPrevios;
+        }
+
+        public void RemoveCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     public interface IMap1Actions
     {
         void OnSteering(InputAction.CallbackContext context);
@@ -368,5 +503,11 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnLaser(InputAction.CallbackContext context);
         void OnAction1(InputAction.CallbackContext context);
         void OnAction2(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnReady(InputAction.CallbackContext context);
+        void OnChangeColorNext(InputAction.CallbackContext context);
+        void OnChangeColorPrevios(InputAction.CallbackContext context);
     }
 }

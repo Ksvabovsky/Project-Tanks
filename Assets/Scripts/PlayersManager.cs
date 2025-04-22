@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class PlayersManager : MonoBehaviour
@@ -14,6 +15,31 @@ public class PlayersManager : MonoBehaviour
 
 
     public int playersCount = 0;
+
+    // Definiowanie delegatów
+    public delegate void PlayerJoinedAction(PlayerInput playerInput);
+    public delegate void PlayerLeftAction(PlayerInput playerInput);
+
+    // Deklarowanie eventów
+    public static event PlayerJoinedAction OnPlayerJoined;
+    public static event PlayerLeftAction OnPlayerLeft;
+
+    // Metoda obs³uguj¹ca do³¹czenie gracza
+    public void HandlePlayerJoined(PlayerInput playerInput)
+    {
+        AssignPlayer(playerInput);
+        // Broadcast do wszystkich subskrybentów
+        OnPlayerJoined?.Invoke(playerInput);
+        Debug.Log("Nowy gracz do³¹czy³: " + playerInput.playerIndex);
+    }
+
+    // Metoda obs³uguj¹ca opuszczenie gracza
+    public void HandlePlayerLeft(PlayerInput playerInput)
+    {
+        // Broadcast do wszystkich subskrybentów
+        OnPlayerLeft?.Invoke(playerInput);
+        Debug.Log("Gracz opuœci³ grê: " + playerInput.playerIndex);
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -39,6 +65,24 @@ public class PlayersManager : MonoBehaviour
         
     }
 
+    public PlayerInputController GetPlayerInput(int index)
+    {
+        switch (index)
+        {
+            case 1:
+                return players._player1.gameObject.GetComponent<PlayerInputController>();
+            case 2:
+                return players._player2.GetComponent<PlayerInputController>();
+            case 3:
+                return players._player3.GetComponent<PlayerInputController>();
+            case 4:
+                return players._player4.GetComponent<PlayerInputController>();
+
+        }
+
+        return null;
+    }
+
     public Players GetPlayers()
     {
         return players;
@@ -49,8 +93,10 @@ public class PlayersManager : MonoBehaviour
         return playersCount;
     }
 
-    public void AssignPlayer(PlayerController player_)
+    public void AssignPlayer(PlayerInput playerInput)
     {
+        PlayerController player_ = playerInput.gameObject.GetComponent<PlayerController>();
+
         switch (playersCount)
         {
             case 0:
@@ -78,6 +124,8 @@ public class PlayersManager : MonoBehaviour
                 player_.SetPlayerIndex(playersCount);
                 break;
         }
+
+        Debug.Log("AssignedPlayer"+ playersCount);
     }
 
     public PlayerController GetPlayer(int index)

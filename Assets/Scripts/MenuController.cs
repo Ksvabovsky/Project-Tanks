@@ -10,17 +10,28 @@ public class MenuController : MonoBehaviour
 
     public float spacing = 200f;
 
-    [SerializeField] private List<GameObject> playersIcons;
+    [SerializeField] private GameObject player1character;
+    [SerializeField] private GameObject player2character;
+    [SerializeField] private GameObject player3character;
+    [SerializeField] private GameObject player4character;
 
-    [SerializeField] private GameObject iconPrefab;
+    //[SerializeField] private Transform iconParent;
 
-    [SerializeField] private Transform iconParent;
+    private void Awake()
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerJoinLeftHandler.OnPlayerJoined += OnPlayerJoined;
+        PlayersManager.OnPlayerJoined += OnPlayerJoined;
 
+
+        player1character.SetActive(false);
+        player2character.SetActive(false);
+        player3character.SetActive(false);
+        player4character.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,48 +43,43 @@ public class MenuController : MonoBehaviour
     // Funkcja, która bêdzie wywo³ana po do³¹czeniu gracza
     public void OnPlayerJoined(PlayerInput playerInput)
     {
-        AddPlayer();
+        AddPlayer(playerInput);
         Debug.Log("O, ktoœ do³¹czy³!");
     }
 
-    void AddPlayer()
+    void AddPlayer(PlayerInput playerInput)
     {
-        players = PlayersManager.Instance.GetPlayersCount();
-        GameObject newicon = Instantiate(iconPrefab,iconParent);
-        IconScript icon = newicon.GetComponent<IconScript>();
 
-        switch (players + 1)
+        switch (playerInput.playerIndex + 1)
         {
             case 1:
-                icon.SetIcon(Color.red, "Gracz 1");
+                player1character.SetActive(true);
+                MenuPlayerController p1 = player1character.GetComponent<MenuPlayerController>();
+                PlayerInputController p1Input = playerInput.gameObject.GetComponent<PlayerInputController>();
+                
+                p1.playerInit(p1Input);
+                Debug.Log("inited player 1");
                 break;
             case 2:
-                icon.SetIcon(Color.blue, "Gracz 2");
+                player2character.SetActive(true);
+                MenuPlayerController p2 = player1character.GetComponent<MenuPlayerController>();
+                PlayerInputController p2Input = playerInput.gameObject.GetComponent<PlayerInputController>();
+                p2.playerInit(p2Input);
                 break;
             case 3:
-                icon.SetIcon(Color.green, "Gracz 3");
+                player3character.SetActive(true);
+                MenuPlayerController p3 = player1character.GetComponent<MenuPlayerController>();
+                PlayerInputController p3Input = playerInput.gameObject.GetComponent<PlayerInputController>();
+                p3.playerInit(p3Input);
                 break;
             case 4:
-                icon.SetIcon(Color.yellow, "Gracz 4");
+                player4character.SetActive(true);
+                MenuPlayerController p4 = player1character.GetComponent<MenuPlayerController>();
+                PlayerInputController p4Input = playerInput.gameObject.GetComponent<PlayerInputController>();
+                p4.playerInit(p4Input);
                 break;
 
         }
-
-        newicon.transform.localPosition = new Vector3((spacing * (players) / 2), 0f,0f);
-        newicon.transform.localScale = Vector3.zero;
-        newicon.transform.DOScale(Vector3.one, 1f);
-
-        int index = 0;
-        foreach(GameObject p in playersIcons)
-        {
-            float tmpPos = -(spacing * (players) / 2)  + (spacing * index );
-            Debug.Log(tmpPos);
-
-            p.transform.DOLocalMoveX(tmpPos, 1f, false);
-            index++;
-        }
-
-        playersIcons.Add(newicon);
 
     }
 }

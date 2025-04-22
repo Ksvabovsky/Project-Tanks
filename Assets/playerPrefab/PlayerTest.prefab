@@ -447,9 +447,45 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 62002277-2d9e-42a6-a7de-004c3e04a22d
     m_ActionName: Map1/Action 2[/XInputControllerWindows1/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e3c81dd5-4f97-4d19-898e-8302d5c19707
+    m_ActionName: Menu/Ready[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3584539141837692049}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: OnColorChangeNext
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2fad2b65-04bd-4baa-a994-3f85d1076192
+    m_ActionName: Menu/ChangeColorNext[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3584539141837692049}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: OnColorChangePrevious
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 934a2a8c-6eeb-4351-8b29-243e55a1958a
+    m_ActionName: Menu/ChangeColorPrevios[/XInputControllerWindows/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Map1
+  m_DefaultActionMap: Menu
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 106993238883232657}
 --- !u!114 &3584539141837692049
